@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Haven&Her</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #fff5f7;
+      --text-main: #3a2c30;
+      --text-sub: #6f555c;
+      --card-bg: #ffffff;
+      --accent: #d8a1ad;
+      --border-soft: #f0d9df;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-y: auto;
+
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+    .bg-shape {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      background: #fdecef;
+      border-radius: 50%;
+      top: -120px;
+      left: -120px;
+      z-index: -1;
+    }
+
+    .bg-shape-2 {
+  top: auto;
+  bottom: -160px;
+  right: -160px;
+  left: auto;
+  width: 360px;
+  height: 360px;
+}
+
+
+
+    .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;   /* ADD THIS */
+  padding: 18px 40px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 14px;
+  color: var(--text-sub);
+
+  background: rgba(255, 245, 247, 0.85);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+
+
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  color: var(--text-main);
+}
+
+.nav-note {
+  opacity: 0.8;
+}
+
+
+    .page {
+       margin-top: 8px;
+      width: 100%;
+      max-width: 1200px;
+      padding: 32px 40px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+    }
+
+    /* LEFT SECTION */
+    .left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(6px);
+  padding: 40px;
+  border-radius: 28px;
+}
+
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      margin-bottom: 32px;
+    }
+
+    .left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      line-height: 1.25;
+      margin-bottom: 24px;
+    }
+
+    .left .subtitle {
+      font-size: 18px;
+      color: var(--text-sub);
+      line-height: 1.6;
+      max-width: 520px;
+      margin-bottom: 20px;
+    }
+
+    .divider {
+        margin-top: 28px;
+        width: 80px;
+        height: 2px;
+        background: var(--accent);
+        opacity: 0.4;
+        margin-top: 40px;
+    }
+
+
+    /* RIGHT SECTION */
+    .right {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+  background: var(--card-bg);
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  cursor: pointer;
+}
+
+
+    .card:hover {
+  box-shadow: 0 14px 30px rgba(216, 161, 173, 0.22);
+  transform: translateY(-2px);
+}
+
+
+    .card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-content {
+      padding: 22px;
+      text-align: center;
+    }
+
+    .card-content h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    .card-content p {
+      margin: 8px 0 18px;
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+
+    .card-content button {
+      background: none;
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 12px 26px;
+      font-size: 14px;
+      cursor: pointer;
+      color: var(--text-main);
+      transition: background 0.25s ease;
+    }
+
+    .card-content button:hover {
+      background: rgba(216, 161, 173, 0.1);
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+        padding: 40px 24px;
+        gap: 50px;
+      }
+
+      .left h1 {
+        font-size: 34px;
+      }
+    }
+
+    .why-menopause {
+  width: 100%;
+  padding: 100px 24px 90px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.why-intro {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-main);
+  margin-bottom: 28px;
+}
+
+
+.why-container {
+  max-width: 720px;
+  text-align: center;
+}
+
+.why-container h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  margin-bottom: 24px;
+}
+
+.why-container p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-sub);
+  margin-bottom: 18px;
+}
+
+.why-soft {
+  margin-top: 32px;
+  font-size: 16px;
+  color: var(--text-main);
+}
+
+  </style>
+</head>
+
+<body>
+
+    <div class="bg-shape"></div>
+    <div class="bg-shape bg-shape-2"></div>
+
+
+    <div class="navbar">
+  <div class="nav-brand">Haven&Her</div>
+  <div class="nav-note">A gentle space for change</div>
+</div>
+
+
+  <div class="page">
+
+    <!-- LEFT SIDE -->
+    <div class="left">
+
+      <h1>
+        You’re not imagining it.<br>
+        And you don’t have to face it alone.
+      </h1>
+
+      <div class="subtitle">
+        Haven&Her is a quiet space for understanding menopause —  
+        the changes, the emotions, and the unspoken struggles.  
+        <br><br>
+        Whether you are experiencing it, or trying to support someone you love,
+        this space is here to guide you gently.
+      </div>
+
+      <div class="divider"></div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right">
+
+      <div class="card">
+        <img src="women.png" alt="Woman sitting calmly">
+        <div class="card-content">
+          <h3>For Me</h3>
+          <p>Understand what your body and mind are going through</p>
+          <button onclick="window.location.href='login.html'">Explore</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="motherdaughter.jpg" alt="Mother and daughter together">
+        <div class="card-content">
+          <h3>To Support Someone</h3>
+          <p>Learn how to care, listen, and respond with empathy</p>
+          <button onclick="window.location.href='login.html'">Explore</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <section class="why-menopause">
+
+  <div class="why-container">
+    <h2>Why menopause needs to be talked about</h2>
+
+    <p class="why-intro">
+      For many women, menopause arrives quietly —
+      without preparation, without explanation, and without support.
+    </p>
+
+    <div class="why-body">
+      <p>
+        Menopause is not a single moment or a simple biological change.
+        It is a long and deeply personal transition that can affect
+        the body, emotions, relationships, confidence, and daily life.
+      </p>
+
+      <p>
+        Changes in mood, sleep, memory, energy, or physical comfort
+        are often dismissed as stress, personality changes,
+        or “just part of getting older.”
+        When these experiences are misunderstood or ignored,
+        women are left feeling unseen and doubting themselves.
+      </p>
+
+      <p>
+        The lack of open conversation means many women go through
+        this phase silently — managing discomfort, confusion,
+        and emotional shifts on their own.
+      </p>
+    </div>
+
+    <p class="why-soft">
+      Haven&Her exists to gently break that silence.
+      To help women understand what is happening to them,
+      and to help families support them with patience,
+      clarity, and care.
+    </p>
+
+    <div class="why-divider"></div>
+  </div>
+
+</section>
+
+
+
+</body>
+</html>

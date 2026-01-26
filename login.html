@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login – Haven&Her</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f0f8ff;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .login-box {
+      background: white;
+      padding: 50px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 14px 24px;
+      border: none;
+      border-radius: 8px;
+      background: #8ecae6;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-box">
+  <h1>Haven&Her</h1>
+  <button onclick="googleLogin()">Sign in with Google</button>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBXEUA6m10uR0-pTV4IewWmUxTVU-_8cfs",
+    authDomain: "h-h-v1.firebaseapp.com",
+    projectId: "h-h-v1",
+    storageBucket: "h-h-v1.firebasestorage.app",
+    messagingSenderId: "786859596243",
+    appId: "1:786859596243:web:f0918769de98fda7f43726",
+    measurementId: "G-LGTXYGKNFH"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Google Login Function
+  window.googleLogin = function() {
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, provider)
+  .then(() => {
+    const relation = localStorage.getItem("relation");
+    const ageGroup = localStorage.getItem("ageGroup");
+
+    if (!relation || !ageGroup) {
+      window.location.href = "setup.html";
+    } else {
+      window.location.href = "support.html";
+    }
+  })
+
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  // Skip login if already logged in
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const relation = localStorage.getItem("relation");
+    const ageGroup = localStorage.getItem("ageGroup");
+
+    if (!relation || !ageGroup) {
+      window.location.href = "setup.html";
+    } else {
+      window.location.href = "support.html";
+    }
+  }
+});
+
+
+</script>
+
+
+</body>
+</html>

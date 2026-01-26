@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Setup – Haven&Her</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f0f8ff;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .setup-box {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      width: 350px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 25px;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #8ecae6;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="setup-box">
+<h2>Your relationship to her</h2>
+
+<select id="relation">
+  <option value="">Select your relationship</option>
+  <option value="partner">Partner / Spouse</option>
+  <option value="father">Father</option>
+  <option value="mother">Mother</option>
+  <option value="brother">Brother</option>
+  <option value="sister">Sister</option>
+  <option value="son">Son</option>
+  <option value="daughter">Daughter</option>
+  <option value="caregiver">Caregiver</option>
+</select>
+
+
+
+<select id="age">
+  <option value="">Select her life stage</option>
+  <option value="teen">Teenage (12–19)</option>
+  <option value="young">20–30</option>
+  <option value="adult">30–40</option>
+  <option value="midlife">40–50</option>
+  <option value="menopause">50–60</option>
+  <option value="senior">60+</option>
+</select>
+
+
+  <button onclick="saveSetup()">Continue</button>
+</div>
+
+<script>
+  function saveSetup() {
+    const relation = document.getElementById("relation").value;
+    const age = document.getElementById("age").value;
+
+    if (!relation || !age) {
+      alert("Please select both fields.");
+      return;
+    }
+
+    localStorage.setItem("relation", relation);
+    localStorage.setItem("ageGroup", age);
+
+    window.location.href = "support.html";
+  }
+</script>
+
+</body>
+</html>
