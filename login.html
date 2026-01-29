@@ -122,19 +122,17 @@
   const mode = localStorage.getItem("mode");
   const ageGroup = localStorage.getItem("ageGroup");
 
-  // If mode not selected → go back to index
   if (!mode) {
     window.location.href = "index.html";
     return;
   }
 
-  // If setup not completed → go to setup
   if (!ageGroup) {
     window.location.href = "setup.html";
     return;
   }
 
-  // For Me routing
+  /* ---------- FOR ME ---------- */
   if (mode === "forme") {
     if (ageGroup === "teen") {
       window.location.href = "for-me-teenage.html";
@@ -146,7 +144,7 @@
     return;
   }
 
-  // Support routing
+  /* ---------- SUPPORT ---------- */
   if (mode === "support") {
     if (ageGroup === "teen") {
       window.location.href = "supportteenager.html";
@@ -155,6 +153,7 @@
     }
   }
 }
+
 
 
 
@@ -167,4 +166,5 @@
 
 </body>
 </html>
+
 
