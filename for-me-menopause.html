@@ -385,10 +385,20 @@ onAuthStateChanged(auth, (user) => {
   }
 
   // Must be For Me
-  if (mode !== "forme") {
-    window.location.href = "index.html";
-    return;
+  // Must be For Me
+if (mode !== "forme") {
+  if (mode === "support") {
+    const age = localStorage.getItem("ageGroup");
+    if (age === "teen") {
+      window.location.href = "supportteenager.html";
+    } else {
+      window.location.href = "support.html";
+    }
+  } else {
+    window.location.href = "setup.html";
   }
+  return;
+}
 
   // Must be midlife
   if (ageGroup !== "midlife") {
