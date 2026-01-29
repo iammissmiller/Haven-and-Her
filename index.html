@@ -415,7 +415,14 @@
 
 <script>
 function selectMode(mode) {
+
+  // Save selected mode
   localStorage.setItem("mode", mode);
+
+  // Clear previous setup so evaluator can test again
+  localStorage.removeItem("relation");
+  localStorage.removeItem("ageGroup");
+
   window.location.href = "login.html";
 }
 </script>
