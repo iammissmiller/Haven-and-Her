@@ -564,6 +564,23 @@ function closeCard() {
 window.openCard = openCard;
 window.closeCard = closeCard;
 
+document.addEventListener("keydown", function (e) {
+
+  // Notice input
+  const noticeBox = document.getElementById("teenNoticeInput");
+  if (noticeBox && e.target === noticeBox && e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    document.getElementById("teenNoticeBtn").click();
+  }
+
+  // Respond input
+  const respondBox = document.getElementById("teenRespondInput");
+  if (respondBox && e.target === respondBox && e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    document.getElementById("teenRespondBtn").click();
+  }
+
+});
 
 /* ------------------- GEMINI LOGIC ------------------- */
 document.addEventListener("click", async function(e) {
@@ -604,7 +621,14 @@ Situation:
 ${input}
 `);
 
-    output.innerHTML = result.response.text().replace(/\n/g, "<br><br>");
+    const text = result.response.text();
+
+const formatted = text
+  .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+  .replace(/\n/g, "<br>");
+
+output.innerHTML = formatted;
+
   }
 
 
@@ -642,7 +666,14 @@ Situation:
 ${input}
 `);
 
-    output.innerHTML = result.response.text().replace(/\n/g, "<br><br>");
+    const text = result.response.text();
+
+const formatted = text
+  .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+  .replace(/\n/g, "<br>");
+
+output.innerHTML = formatted;
+
   }
 
 });
@@ -650,6 +681,7 @@ ${input}
 </script>
 </body>
 </html>
+
 
 
 
