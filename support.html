@@ -536,25 +536,40 @@ document.addEventListener("click", async function (e) {
     output.innerHTML = "Thinking…";
 
     try {
-      const relation = localStorage.getItem("relation") || "family member";
+      const relation = localStorage.getItem("relation") || "self";
 const ageGroup = localStorage.getItem("ageGroup") || "adult";
 
 let toneContext = "";
-let stageContext = "";
 
 if (relation === "partner") {
   toneContext = "Use a close, emotionally supportive tone appropriate for a romantic partner.";
-} 
-else if (relation === "daughter" || relation === "son") {
-  toneContext = "Use a respectful and patient tone appropriate for a child supporting a mother.";
 }
-else if (relation === "sister") {
+else if (relation === "parent") {
+  toneContext = "Use a respectful and patient tone appropriate for a child supporting their mother.";
+}
+else if (relation === "sibling") {
   toneContext = "Use a familiar but caring tone between siblings.";
+}
+else if (relation === "child") {
+  toneContext = "Use a protective, steady tone appropriate for a parent supporting their daughter.";
+}
+else if (relation === "caregiver") {
+  toneContext = "Use a calm, steady, and responsible tone appropriate for a caregiver.";
 }
 else {
   toneContext = "Use a calm and supportive tone appropriate for a family member.";
 }
+let stageContext = "";
 
+if (ageGroup === "teen") {
+  stageContext = "Consider puberty changes, early menstrual cycles, emotional sensitivity, and body image concerns common in adolescence.";
+}
+else if (ageGroup === "adult") {
+  stageContext = "Consider PMS, work stress, fertility concerns, hormonal fluctuations, or reproductive health stress.";
+}
+else if (ageGroup === "midlife") {
+  stageContext = "Consider perimenopause or menopausal hormonal shifts affecting mood, sleep, and energy levels.";
+}
 // Age-based stage awareness
 if (ageGroup === "teen") {
   stageContext = "Consider puberty changes, early cycles, body image sensitivity, and heightened emotional reactions common in adolescence.";
@@ -568,14 +583,17 @@ else if (ageGroup === "midlife") {
 const result = await model.generateContent(`
 You are inside a women's health support app.
 
-The user is a ${relation}.
-The woman is in the life stage: ${ageGroup}.
+Relationship context:
+${toneContext}
 
+Life stage context:
 ${stageContext}
 
-Adapt naturally to that relationship.
-Do not sound clinical.
-Do not over-explain.
+Instructions:
+- Do not sound clinical.
+- Do not over-explain.
+- Do not sound like a therapist.
+- Be practical and human.
 
 Give:
 1. One confident sentence they can actually say.
@@ -583,7 +601,6 @@ Give:
 3. One short phrase to avoid.
 
 Keep it under 90 words total.
-Make it feel real, not like a therapist.
 
 Situation:
 ${input}
@@ -592,12 +609,10 @@ ${input}
 
 
 const text = result.response.text();
-output.innerHTML = text.replace(/\n/g, "<br><br>");
 
-
-// Convert markdown bold (**text**) to HTML bold
 const formatted = text
   .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+  .replace(/\*/g, "") // removes stray single asterisks
   .replace(/\n/g, "<br>");
 
 output.innerHTML = formatted;
