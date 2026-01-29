@@ -237,7 +237,8 @@ textarea:focus {
     }
 
     /* overlay */
-    .expanded {
+    .expanded-content {
+
       position: absolute;
       inset: 0;
       background: rgba(255,255,255,0.97);
@@ -250,7 +251,8 @@ textarea:focus {
       transition: all 0.3s ease;
     }
 
-    .expanded.active {
+    .expanded-content.active {
+
       opacity: 1;
       pointer-events: auto;
       transform: translateY(0);
@@ -261,6 +263,13 @@ textarea:focus {
       font-size: 28px;
       margin-bottom: 16px;
     }
+    .expanded-inner {
+  position: relative;
+  z-index: 2;
+  padding: 40px;
+  height: 100%;
+  overflow-y: auto;
+}
 
     .expanded p {
       font-size: 16px;
@@ -549,11 +558,15 @@ function openCard(key) {
   document.getElementById("expandedBody").innerHTML = data[key];
  document.getElementById("expandedContent").classList.add("active");
   document.getElementById("cards").style.pointerEvents = "none";
+  document.getElementById("cards").style.opacity = "0.2";
+
 }
 
 function closeCard() {
   document.getElementById("expandedContent").classList.remove("active");
   document.getElementById("cards").style.pointerEvents = "auto";
+  document.getElementById("cards").style.opacity = "1";
+
 }
 
 window.openCard = openCard;
@@ -643,13 +656,9 @@ ${input}
 });
 
 </script>
-
-
-</script>
-
-
 </body>
 </html>
+
 
 
 
