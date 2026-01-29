@@ -536,7 +536,7 @@ document.addEventListener("click", async function (e) {
     output.innerHTML = "Thinking…";
 
     try {
-      const relation = localStorage.getItem("relation") || "self";
+      const relation = localStorage.getItem("relation") || "unspecified";
 const ageGroup = localStorage.getItem("ageGroup") || "adult";
 
 let toneContext = "";
@@ -560,16 +560,6 @@ else {
   toneContext = "Use a calm and supportive tone appropriate for a family member.";
 }
 let stageContext = "";
-
-if (ageGroup === "teen") {
-  stageContext = "Consider puberty changes, early menstrual cycles, emotional sensitivity, and body image concerns common in adolescence.";
-}
-else if (ageGroup === "adult") {
-  stageContext = "Consider PMS, work stress, fertility concerns, hormonal fluctuations, or reproductive health stress.";
-}
-else if (ageGroup === "midlife") {
-  stageContext = "Consider perimenopause or menopausal hormonal shifts affecting mood, sleep, and energy levels.";
-}
 // Age-based stage awareness
 if (ageGroup === "teen") {
   stageContext = "Consider puberty changes, early cycles, body image sensitivity, and heightened emotional reactions common in adolescence.";
