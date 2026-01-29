@@ -266,6 +266,177 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ---------- GLOBAL INTERACTIVE FEEL ---------- */
+
+button {
+  font-family: 'Inter', sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(210,137,153,0.35);
+  opacity: 0.95;
+}
+
+select, textarea {
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(210,137,153,0.18);
+}
+
+/* ---------- TODAY CARD ---------- */
+
+.today-check {
+  max-width: 560px;
+}
+
+.today-check h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.today-check select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+  background: white;
+}
+
+.today-check .checkbox-group {
+  margin-top: 8px;
+  line-height: 1.9;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.today-check input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+#todayResult {
+  margin-top: 26px;
+  padding: 22px;
+  border-radius: 20px;
+  background: #fff5f7;
+  border: 1px solid var(--border-soft);
+  animation: fadeIn 0.35s ease;
+}
+
+/* ---------- SLEEP & REST ---------- */
+
+.sleep-support ul {
+  margin-top: 10px;
+  padding-left: 18px;
+}
+
+.sleep-support li {
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: var(--text-main);
+}
+
+/* subtle hover to feel interactive */
+.sleep-support li:hover {
+  color: var(--accent);
+}
+
+/* ---------- AI CARD (IS THIS NORMAL) ---------- */
+
+textarea {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#normalResult {
+  margin-top: 26px;
+  padding: 22px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid var(--border-soft);
+  animation: fadeIn 0.35s ease;
+}
+
+/* ---------- WHEN TO SEEK CARE (TAP TO REVEAL) ---------- */
+
+.checkin-list {
+  max-width: 580px;
+}
+
+.checkin-item {
+  background: #ffffff;
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  padding: 16px 18px;
+  margin-top: 14px;
+  cursor: pointer;
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.checkin-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+}
+
+.checkin-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.checkin-body {
+  display: none;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-sub);
+}
+
+.checkin-item.open {
+  background: #fff5f7;
+  border-color: rgba(210,137,153,0.4);
+}
+
+.checkin-item.open .checkin-body {
+  display: block;
+  animation: fadeIn 0.25s ease;
+}
+
+/* ---------- SHARED BUTTON STYLE ---------- */
+
+.today-check button,
+.sleep-support button,
+#normal button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 18px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ---------- MICRO-ANIMATIONS ---------- */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
   </style>
 </head>
 
@@ -436,17 +607,46 @@ window.addEventListener("click", (e) => {
 
     const data = {
       today: `
-        <h2>Today</h2>
-        <p>
-          Every day can feel different.
-          Some days are lighter, some heavier,
-          and some just unfamiliar.
-        </p>
-        <p>
-          Notice what your body is asking for —
-          rest, warmth, quiet, or reassurance.
-        </p>
-      `,
+  <h2>Today</h2>
+
+  <p>
+    Hormonal changes during menopause can affect
+    energy, mood, warmth, and focus — and these
+    can change from day to day.
+  </p>
+
+  <div class="today-check">
+
+    <h3>How is your energy today?</h3>
+    <select id="m_energy">
+      <option value="low">Very low</option>
+      <option value="medium">Okay</option>
+      <option value="high">Good</option>
+    </select>
+
+    <h3 style="margin-top:20px;">How is your mood?</h3>
+    <select id="m_mood">
+      <option value="low">Low / irritable</option>
+      <option value="neutral">Neutral</option>
+      <option value="good">Good</option>
+    </select>
+
+    <h3 style="margin-top:20px;">Are you feeling any of these today?</h3>
+    <div class="checkbox-group">
+      <input type="checkbox" id="hot"> Hot flashes / warmth<br>
+      <input type="checkbox" id="brain"> Brain fog<br>
+      <input type="checkbox" id="joint"> Joint aches<br>
+      <input type="checkbox" id="head"> Headache<br>
+      <input type="checkbox" id="none"> None of these
+    </div>
+
+    <br>
+    <button onclick="analyzeTodayMidlife()">Understand today</button>
+
+    <div id="todayResult" style="margin-top:24px;"></div>
+  </div>
+`,
+
       normal: `
         <h2>Is This Normal?</h2>
         <p>
@@ -459,39 +659,143 @@ window.addEventListener("click", (e) => {
         </p>
       `,
       sleep: `
-        <h2>Sleep & Rest</h2>
-        <p>
-          Sleep may feel lighter or interrupted.
-          This is not failure — your body is adjusting.
-        </p>
-        <p>
-          Even small moments of rest help recovery.
-        </p>
-      `,
+  <h2>Sleep & Rest</h2>
+
+  <p>
+    During menopause, sleep can feel lighter,
+    interrupted, or unrefreshing.
+    This is often linked to hormonal shifts,
+    not personal failure.
+  </p>
+
+  <div class="sleep-support">
+
+    <h3>Common reasons sleep feels harder</h3>
+    <ul>
+      <li>Night warmth or sweating</li>
+      <li>Increased alertness at night</li>
+      <li>Anxiety or racing thoughts</li>
+      <li>Early waking</li>
+    </ul>
+
+    <h3 style="margin-top:20px;">What can help support rest</h3>
+    <ul>
+      <li>Consistent sleep and wake times</li>
+      <li>Cool, dark sleeping environment</li>
+      <li>Gentle evening routines</li>
+      <li>Daytime rest when needed</li>
+    </ul>
+
+    <p style="font-size:14px;color:#6f555c;margin-top:16px;">
+      Rest does not only mean sleep — pauses during the day matter too.
+    </p>
+  </div>
+`,
+
       care: `
-        <h2>When to Seek Care</h2>
-        <p>
-          Some symptoms deserve medical attention.
-        </p>
-        <p>
-          Seek help if symptoms are severe,
-          persistent, or affecting daily life.
-        </p>
-      `
+  <h2>When to Seek Care</h2>
+
+  <p>
+    While many menopause changes are expected,
+    some signs should be discussed with a healthcare professional.
+    Tap to understand why.
+  </p>
+
+  <div class="checkin-list">
+
+    <div class="checkin-item" onclick="toggleCheckin(this)">
+      <div class="checkin-title">Symptoms that keep getting worse</div>
+      <div class="checkin-body">
+        Worsening symptoms may need medical support
+        to prevent long-term impact on health.
+      </div>
+    </div>
+
+    <div class="checkin-item" onclick="toggleCheckin(this)">
+      <div class="checkin-title">Bleeding after long gaps or post-menopause</div>
+      <div class="checkin-body">
+        Unexpected bleeding should always be evaluated
+        to rule out underlying conditions.
+      </div>
+    </div>
+
+    <div class="checkin-item" onclick="toggleCheckin(this)">
+      <div class="checkin-title">Sleep loss affecting daily functioning</div>
+      <div class="checkin-body">
+        Persistent poor sleep can impact heart, mood,
+        and metabolic health.
+      </div>
+    </div>
+
+    <div class="checkin-item" onclick="toggleCheckin(this)">
+      <div class="checkin-title">Ongoing anxiety or low mood</div>
+      <div class="checkin-body">
+        Mental health support is just as important
+        as physical care during menopause.
+      </div>
+    </div>
+
+  </div>
+
+  <p style="font-size:14px;color:#6f555c;margin-top:18px;">
+    Seeking care is not overreacting —
+    it’s informed self-care.
+  </p>
+`,
+
     };
 
-    function openCard(key) {
+    window.openCard = function (key) {
       document.getElementById("expandedBody").innerHTML = data[key];
       document.getElementById("expanded").classList.add("active");
-      document.getElementById("cards").style.opacity = "100";
+      document.getElementById("cards").style.opacity = "1";
       document.getElementById("cards").style.pointerEvents = "none";
     }
 
-    function closeCard() {
+    window.closeCard = function () {
       document.getElementById("expanded").classList.remove("active");
       document.getElementById("cards").style.opacity = "1";
       document.getElementById("cards").style.pointerEvents = "auto";
     }
+
+
+    window.analyzeTodayMidlife = function () {
+  const energy = document.getElementById("m_energy").value;
+  const mood = document.getElementById("m_mood").value;
+
+  let explanation =
+    "Fluctuating estrogen levels during menopause can cause day-to-day changes in energy, mood, and physical comfort.";
+
+  let help = [];
+
+  if (energy === "low") {
+    help.push("Pace your day and prioritise rest");
+  }
+  if (mood === "low") {
+    help.push("Gentle movement or quiet time may help stabilise mood");
+  }
+
+  help.push("Hydration and regular meals support hormonal balance");
+  help.push("Tracking patterns over time can be helpful");
+
+  document.getElementById("todayResult").innerHTML = `
+    <h3>What may be influencing today</h3>
+    <p>${explanation}</p>
+
+    <h3>What may help</h3>
+    <ul>${help.map(h => `<li>${h}</li>`).join("")}</ul>
+
+    <p style="font-size:13px;color:#6f555c;">
+      This is not a diagnosis — just a way to listen to your body.
+    </p>
+  `;
+};
+
+window.toggleCheckin = function (item) {
+  item.classList.toggle("open");
+};
+
+
   </script>
 
 </body>
