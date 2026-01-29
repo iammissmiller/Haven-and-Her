@@ -556,20 +556,14 @@ else {
 }
 
 // Age-based stage awareness
-if (ageGroup === "13-19") {
-  stageContext = "Consider that this may involve early menstrual cycles, puberty changes, or emotional sensitivity during adolescence.";
+if (ageGroup === "teen") {
+  stageContext = "Consider puberty changes, early cycles, body image sensitivity, and heightened emotional reactions common in adolescence.";
 }
-else if (ageGroup === "20-35") {
-  stageContext = "Consider reproductive health stress, PMS, work-life pressure, or cycle-related mood shifts.";
+else if (ageGroup === "adult") {
+  stageContext = "Consider PMS, reproductive health stress, work-life pressure, fertility concerns, or hormonal mood fluctuations.";
 }
-else if (ageGroup === "35-45") {
-  stageContext = "Consider hormonal shifts, stress load, and possible early perimenopausal patterns.";
-}
-else if (ageGroup === "45-55") {
-  stageContext = "Consider perimenopause or menopausal transitions affecting mood and energy.";
-}
-else if (ageGroup === "55+") {
-  stageContext = "Consider post-menopausal emotional or physical adjustments.";
+else if (ageGroup === "midlife") {
+  stageContext = "Consider perimenopause or menopausal hormonal shifts affecting mood, sleep, and energy.";
 }
 const result = await model.generateContent(`
 You are inside a women's health support app.
