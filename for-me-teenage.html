@@ -314,7 +314,7 @@
     <!-- RIGHT -->
     <div class="right" id="cards">
 
-  <div class="card" onclick="openCard('period')">
+  <div class="card" onclick="openCard('today')">
     <img src="todayteenager.jpeg" alt="">
     <div class="card-content">
       <h3>My Period Today</h3>
@@ -497,14 +497,14 @@ window.addEventListener("click", (e) => {
 };
 
 
-    function openCard(key) {
+    window.openCard = function (key) {
       document.getElementById("expandedBody").innerHTML = data[key];
       document.getElementById("expanded").classList.add("active");
       document.getElementById("cards").style.opacity = "1";
       document.getElementById("cards").style.pointerEvents = "none";
     }
 
-    function closeCard() {
+    window.closeCard = function () {
       document.getElementById("expanded").classList.remove("active");
       document.getElementById("cards").style.opacity = "1";
       document.getElementById("cards").style.pointerEvents = "auto";
