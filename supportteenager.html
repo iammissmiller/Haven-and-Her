@@ -441,31 +441,22 @@ const profileDropdown = document.getElementById("profileDropdown");
 /* ------------------- PAGE PROTECTION ------------------- */
 onAuthStateChanged(auth, (user) => {
   if (!user) {
-    window.location.href = "login.html";
+    window.location.replace("login.html");
     return;
   }
 
   const mode = localStorage.getItem("mode");
   const ageGroup = localStorage.getItem("ageGroup");
 
-  if (!mode || !ageGroup) {
-    window.location.href = "setup.html";
-    return;
-  }
-
-  if (mode !== "support") {
-    window.location.href = "index.html";
-    return;
-  }
-
-  if (ageGroup !== "teen") {
-    window.location.href = "support.html";
+  if (mode !== "support" || ageGroup !== "teen") {
+    window.location.replace("support.html");
     return;
   }
 
   const name = user.displayName || user.email;
   profileCircle.textContent = name.charAt(0).toUpperCase();
 });
+
 
 
 /* ------------------- LOGOUT ------------------- */
@@ -658,6 +649,7 @@ ${input}
 </script>
 </body>
 </html>
+
 
 
 
