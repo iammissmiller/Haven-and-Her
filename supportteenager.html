@@ -449,9 +449,9 @@ onAuthStateChanged(auth, (user) => {
   const ageGroup = localStorage.getItem("ageGroup");
 
   if (mode !== "support" || ageGroup !== "teen") {
-    window.location.replace("support.html");
-    return;
-  }
+  window.location.replace("setup.html");
+  return;
+}
 
   const name = user.displayName || user.email;
   profileCircle.textContent = name.charAt(0).toUpperCase();
@@ -621,7 +621,7 @@ Situation:
 ${input}
 `);
 
-    const text = result.response.text();
+ const text = result.response.text();
 
 const formatted = text
   .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
@@ -677,6 +677,7 @@ output.innerHTML = formatted;
   }
 
 });
+
 
 </script>
 </body>
