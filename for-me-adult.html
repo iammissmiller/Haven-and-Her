@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Haven&Her – For Me</title>
+    <link rel="icon" type="image/png" href="projectlogo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Fonts -->
@@ -376,6 +377,80 @@
   display: block;
 }
 
+/* ===== BODY SIGNALS – AI ===== */
+
+.ai-section {
+  margin-top: 24px;
+  max-width: 560px;
+}
+
+/* textarea */
+.ai-input {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  background: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-main);
+  resize: none;
+  outline: none;
+}
+
+.ai-input::placeholder {
+  color: #b79aa1;
+}
+
+.ai-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(210,137,153,0.18);
+}
+
+/* button */
+.ai-soft-btn {
+  margin-top: 14px;
+  padding: 12px 22px;
+  border-radius: 18px;
+  border: none;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ai-soft-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(210,137,153,0.35);
+}
+
+.ai-soft-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* response */
+.ai-response {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: #fff5f7;
+  border: 1px solid var(--border-soft);
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-sub);
+}
+
+/* loading */
+.ai-response.loading {
+  font-style: italic;
+  opacity: 0.7;
+}
 
 
   </style>
@@ -469,6 +544,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
 from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI("YOUR_API_KEY");
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBXEUA6m10uR0-pTV4IewWmUxTVU-_8cfs",
@@ -656,17 +736,35 @@ window.addEventListener("click", (e) => {
 
 
   signals: `
-    <h2>Body Signals</h2>
-    <p>
-      Your body often shows small signs
-      before larger health issues develop.
-    </p>
-    <p>
-      Ongoing bloating, low energy,
-      sugar cravings, or skin changes
-      can reflect internal hormonal shifts.
-    </p>
-  `,
+  <h2>Body Signals</h2>
+
+  <p>
+    Your body often shows subtle signals
+    before larger health issues develop.
+    These signs are easy to dismiss,
+    especially when life feels busy.
+  </p>
+
+  <p>
+    You can describe what you’ve been noticing below.
+    This tool helps you reflect on whether these signals
+    are commonly temporary or worth checking in on.
+  </p>
+
+  <div class="ai-section">
+    <textarea
+      id="signalsInput"
+      class="ai-input"
+      placeholder="For example: bloating most days, low energy, sugar cravings, skin changes..."></textarea>
+
+    <button id="signalsBtn" class="ai-soft-btn">
+      Help me understand
+    </button>
+
+    <div id="signalsResponse" class="ai-response"></div>
+  </div>
+`
+,
 
   care: `
   <h2>When to Check In</h2>
@@ -860,6 +958,50 @@ window.analyzePCOS = function () {
 window.toggleCheckin = function (item) {
   item.classList.toggle("open");
 };
+
+document.addEventListener("click", async function (e) {
+
+  if (e.target && e.target.id === "signalsBtn") {
+
+    const input = document.getElementById("signalsInput").value;
+    const output = document.getElementById("signalsResponse");
+
+    if (!input.trim()) {
+      output.innerHTML = "Try describing what you’ve been noticing first.";
+      return;
+    }
+
+    output.classList.add("loading");
+    output.innerHTML = "Thinking…";
+
+    try {
+      const result = await model.generateContent(`
+You are a calm, non-alarming guide inside an adult women's health app.
+
+Do NOT diagnose.
+Do NOT use scary language.
+Keep the response grounded and practical.
+
+Explain briefly:
+1. What these signals commonly reflect
+2. One possible lifestyle or hormonal factor
+3. When it may be worth checking in with a doctor
+
+Body signals described:
+${input}
+`);
+
+      output.innerHTML =
+        result.response.text().replace(/\n/g, "<br>");
+
+    } catch (err) {
+      output.innerHTML =
+        "Something went wrong. Please try again in a moment.";
+    }
+
+    output.classList.remove("loading");
+  }
+});
 
 
   </script>

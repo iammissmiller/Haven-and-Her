@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>Haven&Her – For Me</title>
+
+    <link rel="icon" type="image/png" href="projectlogo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Fonts -->
@@ -451,6 +453,79 @@
   display: block;
 }
 
+/* ========= AI SECTION – HAVEN&HER (FOR ME) ========= */
+
+.ai-section {
+  margin-top: 20px;
+}
+
+/* Input */
+.ai-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  background: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-main);
+  resize: none;
+  outline: none;
+}
+
+.ai-input::placeholder {
+  color: #b59aa1;
+}
+
+.ai-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(210,137,153,0.18);
+}
+
+/* Button */
+.ai-soft-btn {
+  margin-top: 12px;
+  padding: 12px 20px;
+  border-radius: 18px;
+  border: none;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ai-soft-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(210,137,153,0.35);
+}
+
+.ai-soft-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Response */
+.ai-response {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: #fff5f7;
+  border: 1px solid var(--border-soft);
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-sub);
+}
+
+/* Loading state */
+.ai-response.loading {
+  font-style: italic;
+  opacity: 0.7;
+}
 
 
   </style>
@@ -544,9 +619,15 @@
 
   </div>
   <script type="module">
+    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
 from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+const genAI = new GoogleGenerativeAI("YOUR_API_KEY");
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBXEUA6m10uR0-pTV4IewWmUxTVU-_8cfs",
@@ -736,16 +817,32 @@ window.addEventListener("click", (e) => {
 
 
   normal: `
-    <h2>Is This Normal for My Age?</h2>
-    <p>
-      During puberty, changes in mood, skin,
-      appetite, and energy are common.
-    </p>
-    <p>
-      However, ongoing pain, extreme fatigue,
-      or very irregular periods may need medical advice.
-    </p>
-  `,
+  <h2>Is This Normal for My Age?</h2>
+
+  <p>
+    During teenage years, your body is learning new rhythms.
+    Changes in energy, mood, skin, sleep, and periods are common.
+  </p>
+
+  <p>
+    This space helps you understand whether what you're experiencing
+    is usually part of growing up or something that needs attention.
+  </p>
+
+  <div class="ai-section">
+    <textarea
+      id="aiInput"
+      class="ai-input"
+      placeholder="Describe what’s happening in your body or mood..."></textarea>
+
+    <button id="aiBtn" class="ai-soft-btn">
+      Help me understand
+    </button>
+
+    <div id="aiResponse" class="ai-response"></div>
+  </div>
+`
+,
 
   care: `
   <h2>When to Tell an Adult</h2>
@@ -943,6 +1040,38 @@ window.toggleReveal = function (item) {
   item.classList.toggle("open");
 };
 
+document.addEventListener("click", async function(e) {
+
+  if (e.target && e.target.id === "aiBtn") {
+
+    const input = document.getElementById("aiInput").value;
+    const output = document.getElementById("aiResponse");
+
+    if (!input.trim()) {
+      output.innerHTML = "Please describe something first.";
+      return;
+    }
+
+    output.innerHTML = "Thinking…";
+
+    const result = await model.generateContent(`
+You are inside a teen health support app.
+
+Do not diagnose.
+Be calm and reassuring.
+
+Explain simply what this might mean
+and when to ask an adult.
+
+Situation:
+${input}
+`);
+
+    output.innerHTML =
+      result.response.text().replace(/\n/g, "<br>");
+  }
+
+});
 
 
   </script>
